@@ -65,8 +65,9 @@ describe Travis::API::V3::Services::Crons::ForRepository, set_app: true do
                     "@representation" => "minimal",
                     "name"            => "#{branch.name}" },
                 "interval"            => "daily",
-                "disable_by_build"    => true,
-                "next_enqueuing"      => cron.next_enqueuing.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                "run_only_when_new_commit"    => false,
+                "last_run"            => cron.last_run,
+                "next_run"      => cron.next_run.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 "created_at"          => cron.created_at.strftime('%Y-%m-%dT%H:%M:%SZ')
             }
           ]

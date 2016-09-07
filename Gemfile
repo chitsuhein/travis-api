@@ -37,7 +37,7 @@ gem 'jemalloc'
 gem 'customerio'
 
 group :development, :test do
-  gem 'travis-migrations', github: 'travis-ci/travis-migrations'
+  gem 'travis-migrations', github: 'travis-ci/travis-migrations', branch: 'ag-re-factor-cron'
 end
 
 group :test do
