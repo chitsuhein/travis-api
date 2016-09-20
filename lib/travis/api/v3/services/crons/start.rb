@@ -3,6 +3,7 @@ require "core_ext/kernel/run_periodically"
 module Travis::API::V3
   class Services::Crons::Start < Service
     def run!
+      Travis.logger.info "Ready to run crons"
       run_periodically(Travis::API::V3::Cron::SCHEDULER_INTERVAL) do
         enqueue_all
       end
@@ -13,6 +14,7 @@ module Travis::API::V3
     end
 
     def enqueue_all
+      Travis.logger.info "Enqueuing jobs now"
       query.scheduled_crons.each do |cron|
         begin
           cron.needs_new_build? ? cron.enqueue : cron.skip_and_schedule_next_build

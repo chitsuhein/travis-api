@@ -7,6 +7,5 @@ require 'travis/api/app'
 require 'travis/api/v3/services/crons/start'
 
 app = Travis::API::V3::Services::Crons::Start.new(nil, nil, nil)
-
-Travis.logger.info('[cron] start queuing jobs')
+Travis.logger.info "Starting cron service now"
 app.run!
