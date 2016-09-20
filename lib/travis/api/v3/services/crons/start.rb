@@ -14,7 +14,7 @@ module Travis::API::V3
     end
 
     def enqueue_all
-      Travis.logger.info "Enqueuing jobs now"
+      Travis.logger.info "Enqueuing #{query.scheduled_crons.count} jobs now"
       query.scheduled_crons.each do |cron|
         begin
           cron.needs_new_build? ? cron.enqueue : cron.skip_and_schedule_next_build
