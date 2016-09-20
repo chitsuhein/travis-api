@@ -11,6 +11,11 @@ module Travis::API::V3
     }
 
     def schedule_next_build(from: nil)
+      # Make sure the next build will always be in the future
+      if (from && (from <= (DateTime.now.utc - 1.send(TIME_INTERVALS[interval]))))
+        from = DateTime.now.utc
+      end
+
       update_attribute(:next_run, (from || last_run || DateTime.now.utc) + 1.send(TIME_INTERVALS[interval]))
     end
 
@@ -22,8 +27,12 @@ module Travis::API::V3
       always_run? || (last_non_cron_build_time > (last_run || created_at))
     end
 
-    def skip
-      schedule_next_build(from: last_non_cron_build_time)
+    def skip_and_schedule_next_build
+      # Update last_run also, because this build wasn't enqueued through Queries::Crons
+      last_build_time = last_non_cron_build_time
+      update_attribute(:last_run, last_build_time)
+
+      schedule_next_build(from: last_build_time)
     end
 
     def enqueue

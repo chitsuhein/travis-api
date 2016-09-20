@@ -8,7 +8,7 @@ module Travis::API::V3
     def enqueue_all
       scheduled_crons.each do |cron|
         begin
-          cron.needs_new_build? ? cron.enqueue : cron.skip
+          cron.needs_new_build? ? cron.enqueue : cron.skip_and_schedule_next_build
         rescue => e
           Raven.capture_exception(e, tags: { 'cron_id' => cron.try(:id) })
           sleep(10) # This ensures the dyno does not spin down before the http request to send the error to sentry completes
