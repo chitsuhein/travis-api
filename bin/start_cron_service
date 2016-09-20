@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+$stdout.sync = true
+
 $LOAD_PATH << 'lib'
 
 require 'bundler/setup'
