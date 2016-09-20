@@ -4,8 +4,12 @@ module Travis::API::V3
   class Services::Crons::Start < Service
     def run!
       Travis.logger.info "Ready to run crons"
-      run_periodically(Travis::API::V3::Cron::SCHEDULER_INTERVAL) do
-        enqueue_all
+      begin
+        run_periodically(Travis::API::V3::Cron::SCHEDULER_INTERVAL) do
+          enqueue_all
+        end
+      rescue => error
+        Travis.logger.error "Query for finding scheduled crons crashed with message #{error.message}."
       end
     end
 
