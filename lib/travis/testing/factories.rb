@@ -132,7 +132,7 @@ FactoryGirl.define do
     api_key "0123456789abcdef"
   end
 
-  factory :branch do
+  factory :branch, class: Travis::API::V3::Models::Branch do
     name Random.rand(1..1000)
     repository_id { Factory(:repository).id }
   end
