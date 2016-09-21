@@ -3,6 +3,7 @@ require "core_ext/kernel/run_periodically"
 module Travis::API::V3
   class Services::Crons::Start < Service
     def run!
+      Travis.logger.info "DB connection to: #{ActiveRecord::Base.connection.current_database}"
       Travis.logger.info "Ready to run crons"
       run_periodically(Travis::API::V3::Cron::SCHEDULER_INTERVAL) do
         begin
