@@ -7,8 +7,9 @@ module Travis::API::V3
       run_periodically(Travis::API::V3::Cron::SCHEDULER_INTERVAL) do
         begin
           enqueue_all
-        rescue => error
-        Travis.logger.error "Query for finding scheduled crons crashed with message #{error.message}."
+        rescue Exception => error
+          puts "Query for finding scheduled crons crashed with message #{error.message}."
+          Travis.logger.error "Query for finding scheduled crons crashed with message #{error.message}."
         end
       end
     end
