@@ -1,7 +1,6 @@
 module Travis::API::V3
   class Services::Crons::Start < Service
     def run!
-      Travis.logger.info "DB connection to: #{ActiveRecord::Base.connection.current_database}"
       loop do
         enqueue_all
         sleep(Cron::SCHEDULER_INTERVAL)
@@ -13,8 +12,6 @@ module Travis::API::V3
     end
 
     def enqueue_all
-      Travis.logger.info "Enqueuing "
-      Travis.logger.info "#{query.scheduled_crons.count} jobs now"
       query.scheduled_crons.each do |cron|
         begin
           cron.needs_new_build? ? cron.enqueue : cron.skip_and_schedule_next_build
