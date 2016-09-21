@@ -4,13 +4,15 @@ module Travis::API::V3
   class Services::Crons::Start < Service
     def run!
       Travis.logger.info "DB connection to: #{ActiveRecord::Base.connection.current_database}"
-      run_periodically(Travis::API::V3::Cron::SCHEDULER_INTERVAL) do
-        Travis.logger.info "Running periodically every #{Travis::API::V3::Cron::SCHEDULER_INTERVAL}"
+      Thread.new do
+        Travis.logger.info "In new thread"
         begin
-          enqueue_all
-        rescue Exception => error
-          puts "Query for finding scheduled crons crashed with message #{error.message}."
-          Travis.logger.error "Query for finding scheduled crons crashed with message #{error.message}."
+          loop do
+            enqueue_all
+            sleep(5.second)#Cron::SCHEDULER_INTERVAL)
+          end
+        rescue Exception => e
+          Travs.logger.info "Enqueuing crashed with #{e.message}"
         end
       end
     end
