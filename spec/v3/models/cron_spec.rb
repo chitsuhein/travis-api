@@ -57,6 +57,13 @@ describe Travis::API::V3::Models::Cron do
         subject.next_run.should be == DateTime.now + 4.day
       end
     end
+
+    context "and from: is more than one interval in the past" do
+      it "ensures that the next_run is in the future" do
+        subject.schedule_next_build(from: DateTime.now - 2.day)
+        subject.next_run.should be >= DateTime.now
+      end
+    end
   end
 
   describe "enqueue" do
