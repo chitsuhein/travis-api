@@ -24,7 +24,7 @@ module Travis::API::V3
     end
 
     def needs_new_build?
-      always_run? || (last_non_cron_build_time > (last_run || created_at))
+      always_run? || (last_non_cron_build_time < (24.hour.ago))
     end
 
     def skip_and_schedule_next_build
@@ -32,7 +32,7 @@ module Travis::API::V3
       last_build_time = last_non_cron_build_time
       update_attribute(:last_run, last_build_time)
 
-      schedule_next_build(from: last_build_time)
+      schedule_next_build(from: DateTime.now)
     end
 
     def enqueue
@@ -55,7 +55,15 @@ module Travis::API::V3
       }
 
       class_name, queue = Query.sidekiq_queue(:build_request)
-      ::Sidekiq::Client.push('queue'.freeze => queue, 'class'.freeze => class_name, 'args'.freeze => [{type: 'cron'.freeze, payload: JSON.dump(payload), credentials: {}}])
+
+      ::Sidekiq::Client.push(
+          'queue'.freeze => queue,
+          'class'.freeze => class_name,
+          'args'.freeze => [{
+            type: 'cron'.freeze,
+            payload: JSON.dump(payload),
+            credentials: {}
+            }])
 
       update_attribute(:last_run, DateTime.now.utc)
       schedule_next_build

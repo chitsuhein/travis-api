@@ -37,11 +37,11 @@ describe Travis::API::V3::Services::Crons::Start do
 
       before { Timecop.freeze(DateTime.now) }
 
-      context "no new commit since last non cron build" do
+      context "no new build in the last 24h" do
         before do
           last_build = Factory.create(:build,
             repository_id: cron.branch.repository.id,
-            finished_at: DateTime.now.utc - 10.minutes)
+            finished_at: DateTime.now - 1.hour)
           cron.branch.update_attribute(:last_build_id, last_build.id)
           Timecop.travel(scheduler_interval.from_now)
         end
@@ -55,7 +55,7 @@ describe Travis::API::V3::Services::Crons::Start do
         it "schedules the next cron job" do
           subject.enqueue_all
           cron.reload
-          expect(cron.next_run.to_i).to eql (Time.now.utc + 1.day - 10.minutes - scheduler_interval).to_i
+          expect(cron.next_run.to_i).to eql (Time.now.utc + 1.day).to_i
         end
       end
     end

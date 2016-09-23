@@ -40,6 +40,12 @@ GIT
     travis-amqp (0.0.1)
 
 GIT
+  remote: git://github.com/travis-ci/travis-lock.git
+  revision: 8aadc4cd7a1c8d89788dfc096507ee96a71fceb6
+  specs:
+    travis-lock (0.1.0)
+
+GIT
   remote: git://github.com/travis-ci/travis-migrations.git
   revision: 034e0c0352ece7bf3b709f8af34bdd8331a2c712
   branch: ag-re-factor-cron
@@ -387,6 +393,7 @@ DEPENDENCIES
   travis-amqp!
   travis-api!
   travis-config (~> 0.1.0)
+  travis-lock!
   travis-migrations!
   travis-settings!
   travis-sidekiqs!

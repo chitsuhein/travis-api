@@ -37,6 +37,7 @@ module Travis
             archive:       {},
             ssl:           {},
             redis:         { url: 'redis://localhost:6379' },
+            lock:          { strategy: :redis, ttl: 150 },
             repository:    { ssl_key: { size: 4096 } },
             repository_filter: { include: [/^rails\/rails/], exclude: [/\/rails$/] },
             encryption:    Travis.env == 'development' || Travis.env == 'test' ? { key: 'secret' * 10 } : {},

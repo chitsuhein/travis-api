@@ -8,6 +8,7 @@ gem 'travis-amqp',     github: 'travis-ci/travis-amqp'
 gem 'travis-config',   '~> 0.1.0'
 gem 'travis-settings', github: 'travis-ci/travis-settings'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs'
+gem 'travis-lock',        github: 'travis-ci/travis-lock'
 
 gem 'travis-yaml',     github: 'travis-ci/travis-yaml'
 gem 'mustermann',      github: 'rkh/mustermann'

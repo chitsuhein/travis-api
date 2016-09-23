@@ -1,10 +1,19 @@
+require 'travis/api/app/helpers/locking'
+
 module Travis::API::V3
   class Services::Crons::Start < Service
     def run!
       loop do
-        enqueue_all
+        exclusive do
+          time { enqueue_all }
+        end
+        # add metric to librato
         sleep(Cron::SCHEDULER_INTERVAL)
       end
+    end
+
+    def exclusive(&block)
+      super('enqueue_cron_jobs', &block)
     end
 
     def query
