@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+$stdout.sync = true
+
+$LOAD_PATH << 'lib'
+
+require 'bundler/setup'
+require 'travis/api/app'
+require 'travis/api/v3/services/crons/start'
+
+Travis::Api::App.new
+app = Travis::API::V3::Services::Crons::Start.new(nil, nil, nil)
+Travis.logger.info "Starting cron service now"
+app.run!
