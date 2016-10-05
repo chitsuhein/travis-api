@@ -6,8 +6,8 @@ describe Travis::API::V3::Services::Cron::Create, set_app: true do
   let(:current_cron) {Travis::API::V3::Models::Cron.where(branch_id: branch.id).last}
   let(:token)   { Travis::Api::App::AccessToken.create(user: repo.owner, app_id: 1) }
   let(:headers) {{ 'HTTP_AUTHORIZATION' => "token #{token}", "Content-Type" => "application/json" }}
-  let(:options) {{ "interval" => "monthly", "run_only_when_new_commit" => false }}
-  let(:wrong_options) {{ "interval" => "notExisting", "run_only_when_new_commit" => false }}
+  let(:options) {{ "interval" => "monthly", "dont_run_if_recent_build_exists" => false }}
+  let(:wrong_options) {{ "interval" => "notExisting", "dont_run_if_recent_build_exists" => false }}
   let(:parsed_body) { JSON.load(body) }
 
   before do
@@ -61,7 +61,7 @@ describe Travis::API::V3::Services::Cron::Create, set_app: true do
             "@representation" => "minimal",
             "name"            => "#{branch.name}" },
         "interval"            => "monthly",
-        "run_only_when_new_commit"    => false,
+        "dont_run_if_recent_build_exists"    => false,
         "last_run"            => current_cron.last_run,
         "next_run"      => current_cron.next_run.strftime('%Y-%m-%dT%H:%M:%SZ'),
         "created_at"          => current_cron.created_at.strftime('%Y-%m-%dT%H:%M:%SZ')

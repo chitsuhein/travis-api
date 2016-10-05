@@ -32,8 +32,8 @@ describe Travis::API::V3::Services::Crons::Start do
       cron2.destroy
     end
 
-    context "run_only_when_new_commit is true" do
-      let!(:cron) { Factory(:cron, run_only_when_new_commit: true) }
+    context "dont_run_if_recent_build_exists is true" do
+      let!(:cron) { Factory(:cron, dont_run_if_recent_build_exists: true) }
 
       before { Timecop.freeze(DateTime.now) }
 

@@ -71,7 +71,7 @@ module Travis::API::V3
 
     private
     def always_run?
-      !run_only_when_new_commit
+      !dont_run_if_recent_build_exists
     end
 
     def last_non_cron_build_time

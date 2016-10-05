@@ -47,7 +47,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-migrations.git
-  revision: 034e0c0352ece7bf3b709f8af34bdd8331a2c712
+  revision: 6b511031cccde62d13b13dbe2ffa0ceaaf377de4
   branch: ag-re-factor-cron
   specs:
     travis-migrations (0.0.3)

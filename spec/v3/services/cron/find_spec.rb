@@ -44,7 +44,7 @@ describe Travis::API::V3::Services::Cron::Find, set_app: true do
             "@representation" => "minimal",
             "name"            => branch.name },
         "interval"            => "daily",
-        "run_only_when_new_commit"    => false,
+        "dont_run_if_recent_build_exists"    => false,
         "last_run"            => cron.last_run,
         "next_run"            => cron.next_run.strftime('%Y-%m-%dT%H:%M:%SZ'),
         "created_at"          => cron.created_at.strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -105,7 +105,7 @@ describe Travis::API::V3::Services::Cron::Find, set_app: true do
           "@representation" => "minimal",
           "name"            => branch.name },
       "interval"            => "daily",
-      "run_only_when_new_commit"    => false,
+      "dont_run_if_recent_build_exists"    => false,
       "last_run"            => cron.last_run,
       "next_run"            => cron.next_run.strftime('%Y-%m-%dT%H:%M:%SZ'),
       "created_at"          => cron.created_at.strftime('%Y-%m-%dT%H:%M:%SZ')
